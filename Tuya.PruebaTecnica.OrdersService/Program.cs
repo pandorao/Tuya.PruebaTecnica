@@ -10,11 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<ServicesEndPointOptions>(auth =>
 {
     auth.ProductServiceEndPoint = builder.Configuration.GetConnectionString("ProductServiceEndPoint");
+    auth.DeliveryServiceEndPoint = builder.Configuration.GetConnectionString("DeliveryServiceEndPoint");
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(
     x => x.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection")));
 builder.Services.AddScoped<IProductServices, ProductServices>();
+builder.Services.AddScoped<IDeliveriesServices, DeliveriesServices>();
 
 builder.Services.AddCors(options =>
 {

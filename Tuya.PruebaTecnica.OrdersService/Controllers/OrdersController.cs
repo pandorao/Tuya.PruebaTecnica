@@ -19,12 +19,15 @@ namespace Tuya.PruebaTecnica.OrderService.Controllers
     {
         private readonly ApplicationDbContext _dbcontext;
         private readonly IProductServices _productService;
+        private readonly IDeliveriesServices _deliveriesServices;
 
         public OrdersController(ApplicationDbContext dbcontext, 
-            IProductServices productService)
+            IProductServices productService,
+            IDeliveriesServices deliveriesServices)
         {
             _dbcontext = dbcontext;
             _productService = productService;
+            _deliveriesServices = deliveriesServices;
         }
 
         /// <summary>
@@ -93,6 +96,20 @@ namespace Tuya.PruebaTecnica.OrderService.Controllers
                     };
                     _dbcontext.Orders.Add(order);
                     await _dbcontext.SaveChangesAsync();
+
+
+                    var deliveryResponse = await _deliveriesServices.AddAsync(new Delivery() 
+                    {
+                        ExtimatedShipDate = DateTime.Now.AddDays(2),
+                        OrderId = order.Id
+                    });
+
+                    if (deliveryResponse.Succeeded())
+                    {
+                        order.DeliveryId = deliveryResponse.ResponseObject.Id;
+                        await _dbcontext.SaveChangesAsync();
+                    }
+
                     return await GetById(order.Id);
                 }
                 catch (Exception)

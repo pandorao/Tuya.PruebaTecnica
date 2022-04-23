@@ -70,7 +70,7 @@ namespace Tuya.PruebaTecnica.DeliveryService.Controllers
                 try
                 {
                     await _dbcontext.SaveChangesAsync();
-                    return Ok();
+                    return Ok(model);
                 }
                 catch (Exception)
                 {

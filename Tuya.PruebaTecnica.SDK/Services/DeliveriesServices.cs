@@ -32,7 +32,7 @@ namespace Tuya.PruebaTecnica.SDK.Services
         /// </summary>
         /// <param name="model">modelo</param>
         /// <returns></returns>
-        Task<ServiceResult> AddAsync(Delivery model);
+        Task<ServiceResult<Delivery>> AddAsync(Delivery model);
     }
 
     public class DeliveriesServices : IDeliveriesServices
@@ -85,15 +85,18 @@ namespace Tuya.PruebaTecnica.SDK.Services
         /// </summary>
         /// <param name="model">modelo</param>
         /// <returns></returns>
-        public async Task<ServiceResult> AddAsync(Delivery model)
+        public async Task<ServiceResult<Delivery>> AddAsync(Delivery model)
         {
             HttpResponseMessage response = await _client.PostAsJsonAsync("Deliveries", model);
 
-            var result = new ServiceResult();
+            var result = new ServiceResult<Delivery>();
             result.StatusCode = response.StatusCode;
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 result.Errors = await response.Content.ReadAsAsync<Dictionary<string, string[]>>();
+            }else if (response.IsSuccessStatusCode)
+            {
+                result.ResponseObject = await response.Content.ReadAsAsync<Delivery>();
             }
             return result;
         }
