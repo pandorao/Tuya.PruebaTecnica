@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Tuya.PruebaTecnica.ProductsService.Data;
+using Tuya.PruebaTecnica.DeliveryService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

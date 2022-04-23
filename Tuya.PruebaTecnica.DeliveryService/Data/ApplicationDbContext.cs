@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tuya.PruebaTecnica.Models.Models;
 
-namespace Tuya.PruebaTecnica.ProductsService.Data
+namespace Tuya.PruebaTecnica.DeliveryService.Data
 {
     public class ApplicationDbContext : DbContext
     {
@@ -15,6 +15,6 @@ namespace Tuya.PruebaTecnica.ProductsService.Data
             base.OnModelCreating(builder);
         }
 
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Delivery> Deliveries { get; set; }
     }
 }
