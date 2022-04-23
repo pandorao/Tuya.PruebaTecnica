@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuya.PruebaTecnica.ProductsService", "Tuya.PruebaTecnica.OrderService\Tuya.PruebaTecnica.ProductsService.csproj", "{46D9A21E-ACCE-4F38-B3E7-F49B6D634FF7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuya.PruebaTecnica.Models", "Tuya.PruebaTecnica.Models\Tuya.PruebaTecnica.Models.csproj", "{8189EED1-DF7B-4041-8853-110CB5895FD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuya.PruebaTecnica.SDK", "Tuya.PruebaTecnica.SDK\Tuya.PruebaTecnica.SDK.csproj", "{5E675B22-12A4-41CB-A4BE-EE7F9B49405C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuya.PruebaTecnica.SDK", "Tuya.PruebaTecnica.SDK\Tuya.PruebaTecnica.SDK.csproj", "{5E675B22-12A4-41CB-A4BE-EE7F9B49405C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuya.PruebaTecnica.ProductsService", "Tuya.PruebaTecnica.ProductsService\Tuya.PruebaTecnica.ProductsService.csproj", "{170C1000-793D-4C53-BB3A-81352C2C651C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuya.PruebaTecnica.OrderService", "Tuya.PruebaTecnica.OrdersService\Tuya.PruebaTecnica.OrderService.csproj", "{EF639975-7F28-4A7B-8435-AC690CA45865}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tuya.PruebaTecnica.DeliveryService", "Tuya.PruebaTecnica.DeliveryService\Tuya.PruebaTecnica.DeliveryService.csproj", "{077FAE8D-79F5-410F-8D28-629DC5703273}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{46D9A21E-ACCE-4F38-B3E7-F49B6D634FF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46D9A21E-ACCE-4F38-B3E7-F49B6D634FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46D9A21E-ACCE-4F38-B3E7-F49B6D634FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46D9A21E-ACCE-4F38-B3E7-F49B6D634FF7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8189EED1-DF7B-4041-8853-110CB5895FD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8189EED1-DF7B-4041-8853-110CB5895FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8189EED1-DF7B-4041-8853-110CB5895FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +27,18 @@ Global
 		{5E675B22-12A4-41CB-A4BE-EE7F9B49405C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E675B22-12A4-41CB-A4BE-EE7F9B49405C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E675B22-12A4-41CB-A4BE-EE7F9B49405C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{170C1000-793D-4C53-BB3A-81352C2C651C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{170C1000-793D-4C53-BB3A-81352C2C651C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{170C1000-793D-4C53-BB3A-81352C2C651C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{170C1000-793D-4C53-BB3A-81352C2C651C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF639975-7F28-4A7B-8435-AC690CA45865}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF639975-7F28-4A7B-8435-AC690CA45865}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF639975-7F28-4A7B-8435-AC690CA45865}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF639975-7F28-4A7B-8435-AC690CA45865}.Release|Any CPU.Build.0 = Release|Any CPU
+		{077FAE8D-79F5-410F-8D28-629DC5703273}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{077FAE8D-79F5-410F-8D28-629DC5703273}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{077FAE8D-79F5-410F-8D28-629DC5703273}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{077FAE8D-79F5-410F-8D28-629DC5703273}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
