@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Tuya.PruebaTecnica.ProductsService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,24 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.SuppressModelStateInvalidFilter = true;
 });
 
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("apiv1", new OpenApiInfo
+    {
+        Title = "API Docs",
+        Description = "Documentacion de las APIs",
+        Version = "v1"
+    });
+
+    var dir = new DirectoryInfo(AppContext.BaseDirectory);
+    foreach (var fi in dir.EnumerateFiles("*.xml"))
+    {
+        c.IncludeXmlComments(fi.FullName);
+    }
+
+    c.EnableAnnotations();
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -25,11 +44,11 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 }
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/apiv1/swagger.json", "Apis");
+});
 
 app.UseHttpsRedirection();
 
