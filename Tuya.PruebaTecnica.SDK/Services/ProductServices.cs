@@ -18,7 +18,7 @@ namespace Tuya.PruebaTecnica.SDK.Services
         /// Obtener lista
         /// </summary>
         /// <returns></returns>
-        Task<List<Product>> GetAllAsync();
+        Task<List<Product>> GetAllAsync(int[] ids = null);
 
         /// <summary>
         /// Obtener uno por id
@@ -49,7 +49,7 @@ namespace Tuya.PruebaTecnica.SDK.Services
         Task<ServiceResult> RemoveAsync(Product model);
     }
 
-    public class ProductServices
+    public class ProductServices : IProductServices
     {
         private readonly HttpClient _client;
 
@@ -67,10 +67,10 @@ namespace Tuya.PruebaTecnica.SDK.Services
         /// Obtener lista
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Product>> GetAllAsync()
+        public async Task<List<Product>> GetAllAsync(int[] ids = null)
         {
             List<Product> list = new List<Product>();
-            HttpResponseMessage response = await _client.GetAsync($"Products/");
+            HttpResponseMessage response = await _client.GetAsync($"Products/" + (ids == null ? "" : "?ids=" + string.Join("&ids=", ids)));
             if (response.IsSuccessStatusCode)
             {
                 list = await response.Content.ReadAsAsync<List<Product>>();

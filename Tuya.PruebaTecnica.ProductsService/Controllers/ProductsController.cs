@@ -28,9 +28,17 @@ namespace Tuya.PruebaTecnica.ProductsService.Controllers
         /// <returns></returns>
         [HttpGet]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(List<Product>))]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get([FromQuery] int[] ids = null)
         {
-            return Ok(await _dbcontext.Products.AsNoTracking().ToListAsync());
+            if (ids == null || ids.Count() == 0)
+            {
+                return Ok(await _dbcontext.Products.AsNoTracking().ToListAsync());
+            }
+
+            return Ok(await _dbcontext.Products
+                .Where(p => ids.Contains(p.Id))
+                .AsNoTracking().
+                ToListAsync());
         }
 
         /// <summary>
