@@ -8,6 +8,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(
     x => x.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+    builder =>
+    {
+        builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -53,6 +65,8 @@ app.UseSwaggerUI(c =>
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors();
 
 app.MapControllers();
 
