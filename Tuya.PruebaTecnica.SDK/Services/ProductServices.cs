@@ -57,7 +57,7 @@ namespace Tuya.PruebaTecnica.SDK.Services
         {
             _client = new HttpClient
             {
-                BaseAddress = new Uri($"{auth.Value.ProductServiceEndPoint}/api"),
+                BaseAddress = new Uri($"{auth.Value.ProductServiceEndPoint}/api/"),
             };
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

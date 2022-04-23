@@ -11,5 +11,7 @@ namespace Tuya.PruebaTecnica.Models.Models
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
         public int? DeliveryId { get; set; }
+        public decimal Total { get; set; }
+        public ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }

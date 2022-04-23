@@ -1,12 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Tuya.PruebaTecnica.ProductsService.Data;
+using Tuya.PruebaTecnica.OrderService.Data;
+using Tuya.PruebaTecnica.SDK.Models;
+using Tuya.PruebaTecnica.SDK.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<ServicesEndPointOptions>(auth =>
+{
+    auth.ProductServiceEndPoint = builder.Configuration.GetConnectionString("ProductServiceEndPoint");
+});
+
 builder.Services.AddDbContext<ApplicationDbContext>(
     x => x.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection")));
+builder.Services.AddScoped<IProductServices, ProductServices>();
 
 builder.Services.AddCors(options =>
 {
@@ -20,7 +28,8 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

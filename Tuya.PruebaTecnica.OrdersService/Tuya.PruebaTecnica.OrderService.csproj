@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tuya.PruebaTecnica.Models\Tuya.PruebaTecnica.Models.csproj" />
+    <ProjectReference Include="..\Tuya.PruebaTecnica.SDK\Tuya.PruebaTecnica.SDK.csproj" />
   </ItemGroup>
 
 </Project>
