@@ -5,7 +5,7 @@ using Tuya.PruebaTecnica.ProductsService.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(
-    x => x.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
+    x => x.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection")));
 
 builder.Services.AddControllers();
 

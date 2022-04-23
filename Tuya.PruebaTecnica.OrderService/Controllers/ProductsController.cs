@@ -8,6 +8,7 @@ using Tuya.PruebaTecnica.ProductsService.Data;
 
 namespace Tuya.PruebaTecnica.ProductsService.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
     [ApiExplorerSettings(GroupName = "apiv1")]
     [EnableCors]
