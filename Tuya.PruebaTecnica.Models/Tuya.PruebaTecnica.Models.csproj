@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,6 +6,11 @@
     <Nullable>disable</Nullable>
 	  <NoWarn>$(NoWarn);1573</NoWarn>
 	  <NoWarn>$(NoWarn);1572</NoWarn>
+	  <NoWarn>$(NoWarn);1571</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
 
 </Project>

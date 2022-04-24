@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Tuya.PruebaTecnica.DeliveryService.Data;
+using Tuya.PruebaTecnica.DeliveryService.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(
     x => x.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection")));
+builder.Services.AddScoped<IDeliveryRepository, DeliveryRepository>();
 
 builder.Services.AddCors(options =>
 {

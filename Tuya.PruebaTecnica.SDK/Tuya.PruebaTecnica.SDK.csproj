@@ -6,6 +6,7 @@
     <Nullable>disable</Nullable>
 	  <NoWarn>$(NoWarn);1573</NoWarn>
 	  <NoWarn>$(NoWarn);1572</NoWarn>
+	  <NoWarn>$(NoWarn);1571</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
 using Tuya.PruebaTecnica.Models.Models;
 using Tuya.PruebaTecnica.DeliveryService.Data;
+using Tuya.PruebaTecnica.DeliveryService.Repositories;
 
 namespace Tuya.PruebaTecnica.DeliveryService.Controllers
 {
@@ -15,11 +16,11 @@ namespace Tuya.PruebaTecnica.DeliveryService.Controllers
     [SwaggerTag("Deliveries")]
     public class DeliveriesController : ControllerBase
     {
-        private readonly ApplicationDbContext _dbcontext;
+        private readonly IDeliveryRepository _deliveryRepository;
 
-        public DeliveriesController(ApplicationDbContext dbcontext)
+        public DeliveriesController(IDeliveryRepository deliveryRepository)
         {
-            _dbcontext = dbcontext;
+            _deliveryRepository = deliveryRepository;
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace Tuya.PruebaTecnica.DeliveryService.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(List<Product>))]
         public async Task<ActionResult> Get()
         {
-            return Ok(await _dbcontext.Deliveries.AsNoTracking().ToListAsync());
+            return Ok(await _deliveryRepository.GetAllAsync());
         }
 
         /// <summary>
@@ -43,9 +44,7 @@ namespace Tuya.PruebaTecnica.DeliveryService.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetById(int id)
         {
-            var qry = _dbcontext.Deliveries.AsNoTracking();
-
-            var model = await qry.FirstOrDefaultAsync(p => p.Id == id);
+            var model = _deliveryRepository.GetByIdAsync(id);
             if (model == null)
             {
                 return NotFound();
@@ -66,10 +65,9 @@ namespace Tuya.PruebaTecnica.DeliveryService.Controllers
         {
             if (ModelState.IsValid)
             {
-                _dbcontext.Deliveries.Add(model);
                 try
                 {
-                    await _dbcontext.SaveChangesAsync();
+                    await _deliveryRepository.AddAsync(model);
                     return Ok(model);
                 }
                 catch (Exception)
