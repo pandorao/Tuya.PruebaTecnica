@@ -52,7 +52,7 @@ namespace Tuya.PruebaTecnica.OrderService.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetById(int id)
         {
-            var model = _orderRepository.GetByIdAsync(id);
+            var model = await _orderRepository.GetByIdAsync(id);
             if (model == null)
             {
                 return NotFound();

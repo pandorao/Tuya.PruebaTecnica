@@ -44,7 +44,7 @@ namespace Tuya.PruebaTecnica.DeliveryService.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetById(int id)
         {
-            var model = _deliveryRepository.GetByIdAsync(id);
+            var model = await _deliveryRepository.GetByIdAsync(id);
             if (model == null)
             {
                 return NotFound();
