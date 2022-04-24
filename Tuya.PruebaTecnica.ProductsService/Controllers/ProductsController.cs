@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
 using Tuya.PruebaTecnica.Models.Models;
 using Tuya.PruebaTecnica.ProductsService.Data;
+using Tuya.PruebaTecnica.ProductsService.Repositories;
 
 namespace Tuya.PruebaTecnica.ProductsService.Controllers
 {
@@ -15,11 +16,11 @@ namespace Tuya.PruebaTecnica.ProductsService.Controllers
     [SwaggerTag("Productos")]
     public class ProductsController : ControllerBase
     {
-        private readonly ApplicationDbContext _dbcontext;
+        private readonly IProductRepository _productRepository;
 
-        public ProductsController(ApplicationDbContext dbcontext)
+        public ProductsController(IProductRepository productRepository)
         {
-            _dbcontext = dbcontext;
+            _productRepository = productRepository;
         }
 
         /// <summary>
@@ -30,15 +31,7 @@ namespace Tuya.PruebaTecnica.ProductsService.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(List<Product>))]
         public async Task<ActionResult> Get([FromQuery] int[] ids = null)
         {
-            if (ids == null || ids.Count() == 0)
-            {
-                return Ok(await _dbcontext.Products.AsNoTracking().ToListAsync());
-            }
-
-            return Ok(await _dbcontext.Products
-                .Where(p => ids.Contains(p.Id))
-                .AsNoTracking().
-                ToListAsync());
+            return Ok(await _productRepository.GetAllAsync(ids));
         }
 
         /// <summary>
@@ -51,9 +44,7 @@ namespace Tuya.PruebaTecnica.ProductsService.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetById(int id)
         {
-            var qry = _dbcontext.Products.AsNoTracking();
-
-            var model = await qry.FirstOrDefaultAsync(p => p.Id == id);
+            var model = await _productRepository.GetByIdAsync(id);
             if (model == null)
             {
                 return NotFound();
@@ -83,8 +74,7 @@ namespace Tuya.PruebaTecnica.ProductsService.Controllers
             {
                 try
                 {
-                    _dbcontext.Products.Update(model);
-                    await _dbcontext.SaveChangesAsync();
+                    await _productRepository.UpdateAsync(model);
                     return Ok();
                 }
                 catch (Exception)
@@ -112,10 +102,9 @@ namespace Tuya.PruebaTecnica.ProductsService.Controllers
         {
             if (ModelState.IsValid)
             {
-                _dbcontext.Products.Add(model);
                 try
                 {
-                    await _dbcontext.SaveChangesAsync();
+                    await _productRepository.AddAsync(model);
                     return Ok();
                 }
                 catch (Exception)
@@ -138,8 +127,8 @@ namespace Tuya.PruebaTecnica.ProductsService.Controllers
         [SwaggerResponse(StatusCodes.Status400BadRequest, Type = typeof(Dictionary<string, string[]>))]
         public async Task<ActionResult> Delete(int id)
         {
-            var model = await _dbcontext.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var model = await _productRepository
+                .GetByIdAsync(id);
             if (model == null)
             {
                 return NotFound();
@@ -147,8 +136,7 @@ namespace Tuya.PruebaTecnica.ProductsService.Controllers
 
             try
             {
-                _dbcontext.Products.Remove(model);
-                await _dbcontext.SaveChangesAsync();
+                await _productRepository.RemoveAsync(model);
                 return Ok();
             }
             catch (Exception)
@@ -162,7 +150,7 @@ namespace Tuya.PruebaTecnica.ProductsService.Controllers
         #region Helpers
         private bool ProductExists(int id)
         {
-            return _dbcontext.Products.Any(e => e.Id == id);
+            return _productRepository.AnyByIdAsync(id);
         }
         #endregion
     }
