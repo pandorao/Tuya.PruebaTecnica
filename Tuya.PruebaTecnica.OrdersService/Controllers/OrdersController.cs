@@ -6,6 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using Tuya.PruebaTecnica.Models.Dtos.Order;
 using Tuya.PruebaTecnica.Models.Models;
 using Tuya.PruebaTecnica.OrderService.Data;
+using Tuya.PruebaTecnica.OrderService.Repositories;
 using Tuya.PruebaTecnica.SDK.Services;
 
 namespace Tuya.PruebaTecnica.OrderService.Controllers
@@ -17,15 +18,15 @@ namespace Tuya.PruebaTecnica.OrderService.Controllers
     [SwaggerTag("Ordenes")]
     public class OrdersController : ControllerBase
     {
-        private readonly ApplicationDbContext _dbcontext;
+        private readonly IOrderRepository _orderRepository;
         private readonly IProductServices _productService;
         private readonly IDeliveriesServices _deliveriesServices;
 
-        public OrdersController(ApplicationDbContext dbcontext, 
+        public OrdersController(IOrderRepository orderRepository, 
             IProductServices productService,
             IDeliveriesServices deliveriesServices)
         {
-            _dbcontext = dbcontext;
+            _orderRepository = orderRepository;
             _productService = productService;
             _deliveriesServices = deliveriesServices;
         }
@@ -38,10 +39,7 @@ namespace Tuya.PruebaTecnica.OrderService.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(List<Order>))]
         public async Task<ActionResult> Get()
         {
-            return Ok(await _dbcontext.Orders
-                .Include(p => p.OrderProducts)
-                .AsNoTracking()
-                .ToListAsync());
+            return Ok(await _orderRepository.GetAllAsync());
         }
 
         /// <summary>
@@ -54,11 +52,7 @@ namespace Tuya.PruebaTecnica.OrderService.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetById(int id)
         {
-            var qry = _dbcontext.Orders
-                .Include(p => p.OrderProducts)
-                .AsNoTracking();
-
-            var model = await qry.FirstOrDefaultAsync(p => p.Id == id);
+            var model = _orderRepository.GetByIdAsync(id);
             if (model == null)
             {
                 return NotFound();
@@ -94,8 +88,7 @@ namespace Tuya.PruebaTecnica.OrderService.Controllers
                         Total = products.Sum(p => p.Price),
                         OrderProducts = products.Select(p => new OrderProduct() { ProductId = p.Id }).ToList()
                     };
-                    _dbcontext.Orders.Add(order);
-                    await _dbcontext.SaveChangesAsync();
+                    await _orderRepository.AddAsync(order);
 
 
                     var deliveryResponse = await _deliveriesServices.AddAsync(new Delivery() 
@@ -107,7 +100,7 @@ namespace Tuya.PruebaTecnica.OrderService.Controllers
                     if (deliveryResponse.Succeeded())
                     {
                         order.DeliveryId = deliveryResponse.ResponseObject.Id;
-                        await _dbcontext.SaveChangesAsync();
+                        await _orderRepository.UpdateAsync(order);
                     }
 
                     return await GetById(order.Id);

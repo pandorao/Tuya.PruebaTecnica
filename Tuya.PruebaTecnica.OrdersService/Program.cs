@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Tuya.PruebaTecnica.OrderService.Data;
+using Tuya.PruebaTecnica.OrderService.Repositories;
 using Tuya.PruebaTecnica.SDK.Models;
 using Tuya.PruebaTecnica.SDK.Services;
 
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     x => x.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection")));
 builder.Services.AddScoped<IProductServices, ProductServices>();
 builder.Services.AddScoped<IDeliveriesServices, DeliveriesServices>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 builder.Services.AddCors(options =>
 {
