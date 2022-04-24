@@ -43,6 +43,10 @@ Una vez corras los proyectos podras observar que se abrirán 3 navegadores con l
 
 <img src="https://github.com/pandorao/Tuya.PruebaTecnica/blob/master/Docs/diagrama%20de%20microservicios-Page-2.drawio.png"/>
 
+# ¿Como probar la solucion?
+
+Para probar la solucion debes primero crear productos desde el microservicio de productos. Luego en el microservicio de ordenes podras crear una orden enviando los ids de los productos de la orden
+
 # Consideraciones
 
 - Por fines de prueba se corren las migraciones de EF automaticamente al momento de iniciar el proyecto.
